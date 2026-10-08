@@ -20,5 +20,5 @@ collections:
       - { label: Categoria, name: category, widget: select, options: ["Reforma Tributária", "Contabilidade", "Gestão Empresarial", "Boletins", "Notícias"] }
       - { label: Autor, name: author, widget: select, options: ["Geone Barbosa", "Nise Consultoria"] }
       - { label: Resumo, name: description, widget: text }
-      - { label: Imagem de destaque, name: image, widget: image, required: false }
+      - { label: Imagem de destaque, name: image, widget: image, required: false, hint: "Formato recomendado: 1200 × 675 px (16:9). Use imagens horizontais e evite textos ou elementos importantes próximos às bordas." }
       - { label: Conteudo, name: body, widget: markdown }
