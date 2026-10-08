@@ -1,7 +1,7 @@
 # MODELO DE CONFIGURACAO — nao ativar antes de configurar repositorio e autenticacao.
 backend:
   name: github
-  repo: SUBSTITUIR_USUARIO/SUBSTITUIR_REPOSITORIO
+  repo: Jorge-Henrique03/nise-blog-teste
   branch: main
 media_folder: assets/uploads
 public_folder: /assets/uploads
