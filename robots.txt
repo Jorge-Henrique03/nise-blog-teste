@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin-demo.html
+Sitemap: https://niseconsultoria.com.br/sitemap.xml

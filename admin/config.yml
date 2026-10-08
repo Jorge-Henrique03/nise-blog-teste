@@ -1,0 +1,24 @@
+# MODELO DE CONFIGURACAO — nao ativar antes de configurar repositorio e autenticacao.
+backend:
+  name: github
+  repo: SUBSTITUIR_USUARIO/SUBSTITUIR_REPOSITORIO
+  branch: main
+media_folder: assets/uploads
+public_folder: /assets/uploads
+locale: pt
+collections:
+  - name: artigos
+    label: Artigos e boletins
+    folder: content/artigos
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Titulo, name: title, widget: string }
+      - { label: Data, name: date, widget: datetime }
+      - { label: Categoria, name: category, widget: select, options: ["Reforma Tributária", "Contabilidade", "Gestão Empresarial", "Boletins", "Notícias"] }
+      - { label: Autor, name: author, widget: select, options: ["Geone Barbosa", "Nise Consultoria"] }
+      - { label: Resumo, name: description, widget: text }
+      - { label: Imagem de destaque, name: image, widget: image, required: false }
+      - { label: Conteudo, name: body, widget: markdown }
