@@ -107,10 +107,22 @@ cards=[]
 for p in posts:
     cat=slugify(p['category']); keys=' '.join([cat,'boletins' if 'bolet' in cat else '', 'reforma' if 'reforma' in cat else '', 'simples' if 'simples' in cat else '', 'gestao' if 'gestao' in cat else '', 'contabilidade' if 'contabil' in cat else '']).strip()
     title=escape(p['title']); desc=escape(p['description']); author=escape(p['author']); date=escape(fmtdate(p['date']))
-    pic=f'<div class="pic"><img src="..{escape(p["image"],quote=True)}" alt="{title}" loading="lazy"></div>' if p['image'] else ''
+    pic=f'<div class="pic cms-card-pic"><img src="..{escape(p["image"],quote=True)}" alt="{title}" loading="lazy"></div>' if p['image'] else ''
     cards.append(f'<article class="ecard" data-cat="{escape(keys,quote=True)}" data-search="{escape(p["title"]+" "+p["description"]+" "+p["category"],quote=True)}">{pic}<div class="body"><span class="tag">{escape(p["category"])}</span><h3>{title}</h3><p>{desc}</p><div class="meta">{author} · {date}</div><a href="{p["slug"]}/index.html">Ler artigo →</a></div></article>')
 needle='<div class="cards" id="cards">'
 if needle not in html:raise RuntimeError('Não foi possível localizar #cards no blog/index.html')
+# Reforço visual apenas para imagens enviadas pelo CMS: preserva a arte inteira,
+# sem cortar textos ou elementos importantes, mantendo todos os cards com a mesma altura.
+cms_style='''<style id="cms-card-image-fix">
+.cms-card-pic{height:255px;background:#f3efe6;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cms-card-pic img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
+@media(max-width:700px){.cms-card-pic{height:auto;aspect-ratio:16/9}}
+</style>'''
+if 'cms-card-image-fix' not in html:
+    html=html.replace('</head>',cms_style+'\n</head>',1)
+
+# `posts` já está ordenado por data em ordem decrescente. Como o bloco é inserido
+# imediatamente após #cards, o conteúdo mais recente do CMS aparece primeiro.
 html=html.replace(needle,needle+'\n'+'\n'.join(cards),1)
 blog_file.write_text(html,encoding='utf-8')
 
