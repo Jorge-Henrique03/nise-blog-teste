@@ -15,19 +15,33 @@ def slugify(s):
 
 def parse_frontmatter(text):
     if not text.startswith('---'):
-        return {},text
-    match=re.match(r'^---\s*\n(.*?)\n---\s*\n?',text,re.S)
+        return {}, text
+
+    match = re.match(r'^---\s*\n(.*?)\n---\s*\n?', text, re.S)
     if not match:
-        return {},text
-    data={}
+        return {}, text
+
+    data = {}
+    current_key = None
+
     for line in match.group(1).splitlines():
-        m=re.match(r'^([A-Za-z_][\w-]*):\s*(.*)$',line)
+        m = re.match(r'^([A-Za-z_][\w-]*):\s*(.*)$', line)
+
         if m:
-            val=m.group(2).strip()
-            if len(val)>=2 and val[0]==val[-1] and val[0] in '\'"':
-                val=val[1:-1]
-            data[m.group(1)]=val
-    return data,text[match.end():]
+            current_key = m.group(1)
+            val = m.group(2).strip()
+
+            if len(val) >= 2 and val[0] == val[-1] and val[0] in '\'"':
+                val = val[1:-1]
+
+            data[current_key] = val
+
+        elif current_key and re.match(r'^\s+', line):
+            continuation = line.strip()
+            if continuation:
+                data[current_key] = (data[current_key] + ' ' + continuation).strip()
+
+    return data, text[match.end():]
 
 def inline(s):
     s=escape(s)
