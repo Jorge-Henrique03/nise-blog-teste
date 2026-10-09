@@ -108,7 +108,34 @@ for p in posts:
     title=escape(p['title']); desc=escape(p['description']); category=escape(p['category']); author=escape(p['author']); date=fmtdate(p['date']); slug=p['slug']
     canonical=f'{SITE}/blog/{slug}/'
     hero=f'<img class="cms-hero" src="{escape(p["image"],quote=True)}" alt="Imagem de destaque: {title}" loading="lazy">' if p['image'] else ''
-    ld=json.dumps({'@context':'https://schema.org','@type':'Article','headline':p['title'],'description':p['description'],'author':{'@type':'Organization' if p['author']=='Nise Consultoria' else 'Person','name':p['author']},'publisher':{'@type':'Organization','name':'Nise Consultoria'},'datePublished':p['date'][:10],'mainEntityOfPage':canonical},ensure_ascii=False).replace('</','<\\/')
+    ld = json.dumps({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': p['title'],
+    'description': p['description'],
+    'image': SITE + p['image'] if p['image'].startswith('/') else p['image'],
+    'datePublished': p['date'],
+    'dateModified': p['date'],
+    'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': canonical
+    },
+    'author': {
+        '@type': 'Organization' if p['author'] == 'Nise Consultoria' else 'Person',
+        'name': p['author']
+    },
+    'publisher': {
+        '@type': 'Organization',
+        'name': 'Nise Consultoria',
+        'url': SITE,
+        'address': {
+            '@type': 'PostalAddress',
+            'addressLocality': 'Palmas',
+            'addressRegion': 'TO',
+            'addressCountry': 'BR'
+        }
+    }
+}, ensure_ascii=False).replace('</', '<\\/')
 page=f'''<!doctype html>
 <html lang="pt-BR">
 <head>
