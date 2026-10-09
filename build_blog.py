@@ -117,6 +117,9 @@ cms_style='''<style id="cms-card-image-fix">
 .cms-card-pic{height:255px;background:#f3efe6;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .cms-card-pic img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
 @media(max-width:700px){.cms-card-pic{height:auto;aspect-ratio:16/9}}
+.cms-article-title{font-size:clamp(2.5rem,4.2vw,4.5rem);line-height:1.05;letter-spacing:-0.02em}
+.cms-article-description{font-size:1.35rem;line-height:1.5;max-width:900px;white-space:normal;overflow:visible;text-overflow:clip}
+@media(max-width:700px){.cms-article-title{font-size:2.5rem}.cms-article-description{font-size:1.1rem}}
 </style>'''
 if 'cms-card-image-fix' not in html:
     html=html.replace('</head>',cms_style+'\n</head>',1)
