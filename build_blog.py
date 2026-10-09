@@ -95,7 +95,7 @@ for p in posts:
     canonical=f'{SITE}/blog/{slug}/'
     hero=f'<img class="cms-hero" src="{escape(p["image"],quote=True)}" alt="Imagem de destaque: {title}" loading="lazy">' if p['image'] else ''
     ld=json.dumps({'@context':'https://schema.org','@type':'Article','headline':p['title'],'description':p['description'],'author':{'@type':'Organization' if p['author']=='Nise Consultoria' else 'Person','name':p['author']},'publisher':{'@type':'Organization','name':'Nise Consultoria'},'datePublished':p['date'][:10],'mainEntityOfPage':canonical},ensure_ascii=False).replace('</','<\\/')
-        page=f'''<!doctype html>
+page=f'''<!doctype html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8">
