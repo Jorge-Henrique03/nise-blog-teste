@@ -159,9 +159,9 @@ page=f'''<!doctype html>
     </footer>
 </body>
 </html>'''
-    folder=OUT/'blog'/slug
-    folder.mkdir(parents=True,exist_ok=True)
-    (folder/'index.html').write_text(page,encoding='utf-8')
+folder=OUT/'blog'/slug
+folder.mkdir(parents=True,exist_ok=True)
+(folder/'index.html').write_text(page,encoding='utf-8')
 
 blog_file=OUT/'blog'/'index.html'
 html=blog_file.read_text(encoding='utf-8')
