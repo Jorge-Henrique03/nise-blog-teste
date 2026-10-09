@@ -95,7 +95,70 @@ for p in posts:
     canonical=f'{SITE}/blog/{slug}/'
     hero=f'<img class="cms-hero" src="{escape(p["image"],quote=True)}" alt="Imagem de destaque: {title}" loading="lazy">' if p['image'] else ''
     ld=json.dumps({'@context':'https://schema.org','@type':'Article','headline':p['title'],'description':p['description'],'author':{'@type':'Organization' if p['author']=='Nise Consultoria' else 'Person','name':p['author']},'publisher':{'@type':'Organization','name':'Nise Consultoria'},'datePublished':p['date'][:10],'mainEntityOfPage':canonical},ensure_ascii=False).replace('</','<\\/')
-    page=f'''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} | Nise Consultoria</title><meta name="description" content="{desc}"><link rel="canonical" href="{canonical}"><link rel="stylesheet" href="../../blog.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet"><style>.cms-hero{{width:100%;max-height:440px;object-fit:cover;margin:20px 0 32px}}.cms-content{{line-height:1.85;overflow-wrap:anywhere}}.cms-content img{{max-width:100%;height:auto}}.cms-content h2,.cms-content h3{{margin-top:32px}}</style><script type="application/ld+json">{ld}</script></head><body class="blog-body"><header class="blog-nav"><a href="../../index.html"><img src="../../assets/logo.jpg" alt="Nise Consultoria"></a><nav class="blog-nav-links"><a href="../../index.html">Início</a><a href="../index.html">Blog</a><a class="gold-btn" href="https://wa.me/5563999361650">Falar com a Nise ↗</a></nav></header><main class="blog-wrap"><a class="blog-back" href="../index.html">← Todos os conteúdos</a><div class="article-layout"><article class="article-main"><div class="blog-eyebrow" style="margin-top:35px">{category}</div><h1>{title}</h1><p class="intro">{desc}</p><p class="blog-meta">Por {author} · {escape(date)}</p>{hero}<div class="cms-content">{markdown_html(p['body'])}</div><a class="blog-cta" href="https://wa.me/5563999361650">Falar com a Nise Consultoria ↗</a></article><aside class="article-aside"><div class="blog-eyebrow">Nise Consultoria</div><h2>Informação para decidir melhor.</h2><p>Atendimento contábil e tributário em Palmas/TO e on-line.</p><a href="https://wa.me/5563999361650">Solicitar atendimento ↗</a></aside></div></main><footer class="blog-footer">Nise Consultoria · Palmas/TO · <a href="../index.html">Voltar ao Blog</a></footer></body></html>'''
+        page=f'''<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{title} | Nise Consultoria</title>
+    <meta name="description" content="{desc}">
+    <link rel="canonical" href="{canonical}">
+    <link rel="stylesheet" href="../../blog.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        .cms-hero{{width:100%;max-height:440px;object-fit:cover;margin:20px 0 32px}}
+        .cms-content{{line-height:1.85;overflow-wrap:anywhere}}
+        .cms-content img{{max-width:100%;height:auto}}
+        .cms-content h2,.cms-content h3{{margin-top:32px}}
+    </style>
+    <script type="application/ld+json">{ld}</script>
+</head>
+<body class="blog-body">
+    <header class="blog-nav">
+        <a href="../../index.html">
+            <img src="../../assets/logo.jpg" alt="Nise Consultoria">
+        </a>
+        <nav class="blog-nav-links">
+            <a href="../../index.html">Início</a>
+            <a href="../index.html">Blog</a>
+            <a class="gold-btn" href="https://wa.me/5563999361650">Falar com a Nise ↗</a>
+        </nav>
+    </header>
+
+    <main class="blog-wrap">
+        <a class="blog-back" href="../index.html">← Todos os conteúdos</a>
+
+        <div class="article-layout">
+            <article class="article-main">
+                <div class="blog-eyebrow" style="margin-top:35px">{category}</div>
+                <h1>{title}</h1>
+                <p class="intro">{desc}</p>
+                <p class="blog-meta">Por {author} · {escape(date)}</p>
+                {hero}
+
+                <div class="cms-content">
+                    {markdown_html(p['body'])}
+                </div>
+
+                <a class="blog-cta" href="https://wa.me/5563999361650">Falar com a Nise Consultoria ↗</a>
+            </article>
+
+            <aside class="article-aside">
+                <div class="blog-eyebrow">Nise Consultoria</div>
+                <h2>Informação para decidir melhor.</h2>
+                <p>Atendimento contábil e tributário em Palmas/TO e on-line.</p>
+                <a href="https://wa.me/5563999361650">Solicitar atendimento ↗</a>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="blog-footer">
+        Nise Consultoria · Palmas/TO · <a href="../index.html">Voltar ao Blog</a>
+    </footer>
+</body>
+</html>'''
     folder=OUT/'blog'/slug
     folder.mkdir(parents=True,exist_ok=True)
     (folder/'index.html').write_text(page,encoding='utf-8')
